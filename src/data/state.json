@@ -1,0 +1,143 @@
+{
+  "scoreHistory": [
+    { "date": "2025-10-01", "score": 520 },
+    { "date": "2025-11-01", "score": 535 },
+    { "date": "2025-12-01", "score": 540 },
+    { "date": "2026-01-01", "score": 555 },
+    { "date": "2026-02-01", "score": 565 },
+    { "date": "2026-03-17", "score": 580 }
+  ],
+  "currentScore": 580,
+  "blockers": [
+    {
+      "id": "verizon",
+      "creditor": "Verizon Wireless",
+      "type": "Collection",
+      "amount": 1370,
+      "status": "disputed",
+      "disputeDate": "2026-03-18",
+      "documents": [
+        {
+          "name": "Round 1 Dispute Letter",
+          "url": "/docs/verizon_dispute_r1.pdf",
+          "type": "pdf"
+        },
+        {
+          "name": "USPS Certified Receipt",
+          "url": "/docs/verizon_usps.jpg",
+          "type": "image"
+        }
+      ]
+    },
+    {
+      "id": "midland",
+      "creditor": "Midland Credit Mgmt",
+      "originalCreditor": "Credit One Bank",
+      "type": "Collection",
+      "amount": 898,
+      "status": "pending",
+      "disputeDate": null,
+      "documents": []
+    },
+    {
+      "id": "sunrise",
+      "creditor": "Sunrise Credit Services",
+      "originalCreditor": "Commonwealth Edison",
+      "type": "Collection",
+      "amount": 677,
+      "status": "pending",
+      "disputeDate": null,
+      "documents": []
+    },
+    {
+      "id": "ic-system",
+      "creditor": "I C System Inc",
+      "originalCreditor": "Comcast Xfinity",
+      "type": "Collection",
+      "amount": 50,
+      "status": "pending",
+      "disputeDate": null,
+      "documents": []
+    },
+    {
+      "id": "merrick",
+      "creditor": "Merrick Bank Corp",
+      "type": "Charge Off",
+      "amount": 859,
+      "status": "pending",
+      "disputeDate": null,
+      "documents": []
+    },
+    {
+      "id": "first-premier",
+      "creditor": "First Premier",
+      "type": "Charge Off",
+      "amount": 483,
+      "status": "pending",
+      "disputeDate": null,
+      "documents": []
+    },
+    {
+      "id": "stellar",
+      "creditor": "StellarFinance Inc",
+      "type": "Past Due",
+      "amount": 513,
+      "status": "action_required",
+      "disputeDate": null,
+      "documents": []
+    },
+    {
+      "id": "perpay",
+      "creditor": "Perpay Inc",
+      "type": "Past Due",
+      "amount": 135,
+      "status": "action_required",
+      "disputeDate": null,
+      "documents": []
+    }
+  ],
+  "actionPlan": [
+    {
+      "phase": 1,
+      "title": "Foundation & Cleanup",
+      "items": [
+        { "id": "a1", "task": "Bring Perpay ($135) and StellarFinance ($513) current immediately", "completed": false },
+        { "id": "a2", "task": "Mail Round 1 Dispute via USPS Certified Mail to Experian for Verizon", "completed": true },
+        { "id": "a3", "task": "Mail Round 1 Dispute to Equifax for Midland Credit", "completed": false },
+        { "id": "a4", "task": "Call I C System to negotiate Pay for Delete ($50)", "completed": false }
+      ]
+    },
+    {
+      "phase": 2,
+      "title": "Banking & Vault Setup",
+      "items": [
+        { "id": "b1", "task": "Open Chase Private Client account and route all income", "completed": false },
+        { "id": "b2", "task": "Setup Ally Bank with 6-month emergency vault", "completed": false }
+      ]
+    },
+    {
+      "phase": 3,
+      "title": "Investing & Crypto Core",
+      "items": [
+        { "id": "c1", "task": "Setup Fidelity (SPAXX, Roth IRA, Solo 401k)", "completed": false },
+        { "id": "c2", "task": "Create Phantom Vault Wallet for USDC Storage", "completed": false },
+        { "id": "c3", "task": "Deploy Kamino Yield Layer via Phantom Staging Wallet", "completed": false }
+      ]
+    },
+    {
+      "phase": 4,
+      "title": "Credit Optimization",
+      "items": [
+        { "id": "d1", "task": "Acquire Apple Card & Amazon Prime Visa (Req: ~660 FICO)", "completed": false },
+        { "id": "d2", "task": "Acquire Amex Gold & Fidelity Visa (Req: ~690 FICO)", "completed": false },
+        { "id": "d3", "task": "Implement AZEO Strategy (< 10% utilization)", "completed": false }
+      ]
+    }
+  ],
+  "custodianLog": [
+    {
+      "date": "2026-03-17",
+      "message": "Initial state created based on Mar 2026 Experian and Equifax reports. 8 blockers identified."
+    }
+  ]
+}

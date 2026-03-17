@@ -1,0 +1,10 @@
+{
+  "users": {
+    "drew": {
+      "id": "user-drew-123",
+      "username": "drew",
+      "devices": []
+    }
+  },
+  "currentChallenge": null
+}
