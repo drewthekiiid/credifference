@@ -2,11 +2,12 @@ import { getSession } from '@/lib/auth/session';
 import { redirect } from 'next/navigation';
 import stateData from '@/data/state.json';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { ShieldCheck, TrendingUp, Lock, CheckCircle, Clock } from 'lucide-react';
+import { ShieldCheck, TrendingUp, Clock } from 'lucide-react';
 import { ScoreChart } from '@/components/ScoreChart';
 import { LevelUnlock } from '@/components/LevelUnlock';
 import { BlockerList } from '@/components/BlockerList';
 import { ActionEngine } from '@/components/ActionEngine';
+import type { StateData } from '@/types/ssot';
 
 export default async function Dashboard() {
   const session = await getSession();
@@ -14,7 +15,8 @@ export default async function Dashboard() {
     redirect('/login');
   }
 
-  const { currentScore, scoreHistory, blockers, actionPlan, custodianLog } = stateData;
+  const { currentScore, scoreHistory, blockers, actionPlan, custodianLog } =
+    stateData as StateData;
 
   return (
     <div className="max-w-7xl mx-auto space-y-8 pb-12">

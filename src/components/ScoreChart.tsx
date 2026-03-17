@@ -1,8 +1,9 @@
 'use client';
 
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import type { ScorePoint } from '@/types/ssot';
 
-export function ScoreChart({ data }: { data: any[] }) {
+export function ScoreChart({ data }: { data: ScorePoint[] }) {
   return (
     <div className="h-[200px] w-full">
       <ResponsiveContainer width="100%" height="100%">

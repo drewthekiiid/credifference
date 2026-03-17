@@ -4,9 +4,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
 import { AlertTriangle, FileText, Clock, ExternalLink } from 'lucide-react';
+import type { Blocker, BlockerDocument, BlockerType } from '@/types/ssot';
 
-export function BlockerList({ blockers }: { blockers: any[] }) {
-  const getBadgeColor = (type: string) => {
+export function BlockerList({ blockers }: { blockers: Blocker[] }) {
+  const getBadgeColor = (type: BlockerType) => {
     switch (type) {
       case 'Collection': return 'bg-red-500/10 text-red-400 border-red-500/20';
       case 'Charge Off': return 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20';
@@ -83,7 +84,7 @@ export function BlockerList({ blockers }: { blockers: any[] }) {
                     <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Linked Documents</h4>
                     {blocker.documents && blocker.documents.length > 0 ? (
                       <div className="space-y-2">
-                        {blocker.documents.map((doc: any, i: number) => (
+                        {blocker.documents.map((doc: BlockerDocument, i: number) => (
                           <a 
                             key={i} 
                             href={doc.url} 

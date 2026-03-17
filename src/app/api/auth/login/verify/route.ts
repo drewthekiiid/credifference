@@ -2,6 +2,7 @@ import { verifyAuthenticationResponse } from '@simplewebauthn/server';
 import { NextResponse } from 'next/server';
 import { getChallengeCookie, clearChallengeCookie, createSession } from '@/lib/auth/session';
 import passkeysData from '@/data/passkeys.json';
+import type { PasskeysData } from '@/types/ssot';
 
 const rpID = process.env.RP_ID || 'localhost';
 const expectedOrigin = process.env.EXPECTED_ORIGIN || 'http://localhost:3000';
@@ -14,7 +15,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Challenge expired or missing' }, { status: 400 });
   }
 
-  const user = passkeysData.users.drew;
+  const user = (passkeysData as PasskeysData).users.drew;
   const device = user.devices.find((d) => d.credentialID === body.id);
 
   if (!device) {
@@ -27,9 +28,9 @@ export async function POST(req: Request) {
       expectedChallenge,
       expectedOrigin,
       expectedRPID: rpID,
-      authenticator: {
-        credentialID: Buffer.from(device.credentialID, 'base64url'),
-        credentialPublicKey: Buffer.from(device.credentialPublicKey, 'base64url'),
+      credential: {
+        id: device.credentialID,
+        publicKey: Buffer.from(device.credentialPublicKey, 'base64url'),
         counter: device.counter,
       },
     });
@@ -40,9 +41,12 @@ export async function POST(req: Request) {
       await createSession(user.id);
       return NextResponse.json({ verified: true });
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error(error);
-    return NextResponse.json({ error: error.message }, { status: 400 });
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : 'Authentication failed' },
+      { status: 400 }
+    );
   }
 
   return NextResponse.json({ verified: false }, { status: 400 });

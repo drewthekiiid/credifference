@@ -12,6 +12,14 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  const getErrorMessage = (errorValue: unknown) => {
+    if (errorValue instanceof Error) {
+      return errorValue.message;
+    }
+
+    return 'An unexpected error occurred';
+  };
+
   const handleLogin = async () => {
     setLoading(true);
     setError('');
@@ -35,9 +43,9 @@ export default function LoginPage() {
       } else {
         setError('Verification failed');
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      setError(err.message || 'An error occurred during login');
+      setError(getErrorMessage(err));
     } finally {
       setLoading(false);
     }
@@ -69,9 +77,9 @@ export default function LoginPage() {
       } else {
         setError('Registration verification failed');
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      setError(err.message || 'An error occurred during registration');
+      setError(getErrorMessage(err));
     } finally {
       setLoading(false);
     }

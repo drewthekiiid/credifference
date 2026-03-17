@@ -2,8 +2,9 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CheckSquare, Circle, CheckCircle2 } from 'lucide-react';
+import type { ActionItem, ActionPhase } from '@/types/ssot';
 
-export function ActionEngine({ plan }: { plan: any[] }) {
+export function ActionEngine({ plan }: { plan: ActionPhase[] }) {
   return (
     <Card className="bg-[#111111] border-slate-800">
       <CardHeader>
@@ -24,7 +25,7 @@ export function ActionEngine({ plan }: { plan: any[] }) {
               </div>
               
               <div className="space-y-3 pl-4 border-l border-slate-800 ml-4">
-                {phase.items.map((item: any) => (
+                {phase.items.map((item: ActionItem) => (
                   <div 
                     key={item.id} 
                     className={`flex items-start gap-3 p-3 rounded-lg border transition-colors ${

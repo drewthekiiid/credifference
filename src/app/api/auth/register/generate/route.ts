@@ -2,6 +2,7 @@ import { generateRegistrationOptions } from '@simplewebauthn/server';
 import { NextResponse } from 'next/server';
 import { setChallengeCookie } from '@/lib/auth/session';
 import passkeysData from '@/data/passkeys.json';
+import type { PasskeysData } from '@/types/ssot';
 
 const rpName = 'Drew SSOT';
 const rpID = process.env.RP_ID || 'localhost';
@@ -12,7 +13,7 @@ export async function GET() {
     return NextResponse.json({ error: 'Registration disabled in production' }, { status: 403 });
   }
 
-  const user = passkeysData.users.drew;
+  const user = (passkeysData as PasskeysData).users.drew;
 
   const options = await generateRegistrationOptions({
     rpName,
