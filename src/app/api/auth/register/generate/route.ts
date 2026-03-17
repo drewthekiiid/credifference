@@ -1,26 +1,24 @@
 import { generateRegistrationOptions } from '@simplewebauthn/server';
 import { NextResponse } from 'next/server';
-import { setChallengeCookie } from '@/lib/auth/session';
-import passkeysData from '@/data/passkeys.json';
-import type { PasskeysData } from '@/types/ssot';
+import { getRegisteredDevices, setChallengeCookie } from '@/lib/auth/session';
 
 const rpName = 'Drew SSOT';
 const rpID = process.env.RP_ID || 'localhost';
+const userId = 'user-drew-123';
+const userName = 'drew';
 
 export async function GET() {
-  // Only allow registration in development mode to prevent unauthorized registrations in prod
-  if (process.env.NODE_ENV === 'production') {
-    return NextResponse.json({ error: 'Registration disabled in production' }, { status: 403 });
-  }
-
-  const user = (passkeysData as PasskeysData).users.drew;
+  const devices = await getRegisteredDevices();
 
   const options = await generateRegistrationOptions({
     rpName,
     rpID,
-    userID: new TextEncoder().encode(user.id),
-    userName: user.username,
+    userID: new TextEncoder().encode(userId),
+    userName,
     attestationType: 'none',
+    excludeCredentials: devices.map((device) => ({
+      id: device.credentialID,
+    })),
     authenticatorSelection: {
       residentKey: 'preferred',
       userVerification: 'preferred',

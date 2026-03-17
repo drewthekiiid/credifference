@@ -1,11 +1,15 @@
 import { verifyAuthenticationResponse } from '@simplewebauthn/server';
 import { NextResponse } from 'next/server';
-import { getChallengeCookie, clearChallengeCookie, createSession } from '@/lib/auth/session';
-import passkeysData from '@/data/passkeys.json';
-import type { PasskeysData } from '@/types/ssot';
+import {
+  clearChallengeCookie,
+  createSession,
+  getChallengeCookie,
+  getRegisteredDevices,
+} from '@/lib/auth/session';
 
 const rpID = process.env.RP_ID || 'localhost';
 const expectedOrigin = process.env.EXPECTED_ORIGIN || 'http://localhost:3000';
+const userId = 'user-drew-123';
 
 export async function POST(req: Request) {
   const body = await req.json();
@@ -15,8 +19,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Challenge expired or missing' }, { status: 400 });
   }
 
-  const user = (passkeysData as PasskeysData).users.drew;
-  const device = user.devices.find((d) => d.credentialID === body.id);
+  const devices = await getRegisteredDevices();
+  const device = devices.find((d) => d.credentialID === body.id);
 
   if (!device) {
     return NextResponse.json({ error: 'Device not found' }, { status: 400 });
@@ -36,9 +40,8 @@ export async function POST(req: Request) {
     });
 
     if (verification.verified) {
-      // In a real app we'd update the counter in DB, but since it's read-only in prod, we skip it
       await clearChallengeCookie();
-      await createSession(user.id);
+      await createSession(userId);
       return NextResponse.json({ verified: true });
     }
   } catch (error: unknown) {

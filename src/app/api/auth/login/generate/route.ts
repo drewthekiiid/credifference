@@ -1,17 +1,22 @@
 import { generateAuthenticationOptions } from '@simplewebauthn/server';
 import { NextResponse } from 'next/server';
-import { setChallengeCookie } from '@/lib/auth/session';
-import passkeysData from '@/data/passkeys.json';
-import type { PasskeysData } from '@/types/ssot';
+import { getRegisteredDevices, setChallengeCookie } from '@/lib/auth/session';
 
 const rpID = process.env.RP_ID || 'localhost';
 
 export async function GET() {
-  const user = (passkeysData as PasskeysData).users.drew;
+  const devices = await getRegisteredDevices();
+
+  if (devices.length === 0) {
+    return NextResponse.json(
+      { error: 'No registered passkey found. Register this device first.' },
+      { status: 400 }
+    );
+  }
 
   const options = await generateAuthenticationOptions({
     rpID,
-    allowCredentials: user.devices.map((dev) => ({
+    allowCredentials: devices.map((dev) => ({
       id: dev.credentialID,
     })),
     userVerification: 'preferred',

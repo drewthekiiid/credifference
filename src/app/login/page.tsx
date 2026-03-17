@@ -25,6 +25,10 @@ export default function LoginPage() {
     setError('');
     try {
       const res = await fetch('/api/auth/login/generate');
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || 'Login failed');
+      }
       const options = await res.json();
 
       const authResp = await startAuthentication(options);
@@ -73,7 +77,8 @@ export default function LoginPage() {
       const verification = await verificationRes.json();
 
       if (verification.verified) {
-        alert('Device registered successfully! You can now login.');
+        router.push('/');
+        router.refresh();
       } else {
         setError('Registration verification failed');
       }
@@ -113,19 +118,17 @@ export default function LoginPage() {
             {loading ? 'Authenticating...' : 'Authenticate with Passkey'}
           </Button>
 
-          {process.env.NODE_ENV === 'development' && (
-            <div className="pt-6 mt-6 border-t border-slate-800 text-center">
-              <p className="text-xs text-slate-500 mb-3">Development Only</p>
-              <Button 
-                onClick={handleRegister} 
-                disabled={loading}
-                variant="outline"
-                className="w-full border-slate-700 hover:bg-slate-800 text-slate-300"
-              >
-                Register New Device
-              </Button>
-            </div>
-          )}
+          <div className="pt-6 mt-6 border-t border-slate-800 text-center">
+            <p className="text-xs text-slate-500 mb-3">First time here? Register this device.</p>
+            <Button 
+              onClick={handleRegister} 
+              disabled={loading}
+              variant="outline"
+              className="w-full border-slate-700 hover:bg-slate-800 text-slate-300"
+            >
+              Register New Device
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </div>

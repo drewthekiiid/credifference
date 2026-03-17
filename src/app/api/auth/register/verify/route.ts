@@ -1,19 +1,19 @@
 import { verifyRegistrationResponse } from '@simplewebauthn/server';
 import { NextResponse } from 'next/server';
-import { getChallengeCookie, clearChallengeCookie } from '@/lib/auth/session';
-import passkeysData from '@/data/passkeys.json';
-import fs from 'fs/promises';
-import path from 'path';
-import type { PasskeysData, StoredPasskeyDevice } from '@/types/ssot';
+import {
+  clearChallengeCookie,
+  createSession,
+  getChallengeCookie,
+  getRegisteredDevices,
+  setRegisteredDevices,
+} from '@/lib/auth/session';
+import type { StoredPasskeyDevice } from '@/types/ssot';
 
 const rpID = process.env.RP_ID || 'localhost';
 const expectedOrigin = process.env.EXPECTED_ORIGIN || 'http://localhost:3000';
+const userId = 'user-drew-123';
 
 export async function POST(req: Request) {
-  if (process.env.NODE_ENV === 'production') {
-    return NextResponse.json({ error: 'Registration disabled in production' }, { status: 403 });
-  }
-
   const body = await req.json();
   const expectedChallenge = await getChallengeCookie();
 
@@ -36,8 +36,6 @@ export async function POST(req: Request) {
         credentialBackedUp,
       } = verification.registrationInfo;
 
-      // Save the new device to the local passkeys.json file
-      const user = (passkeysData as PasskeysData).users.drew;
       const newDevice: StoredPasskeyDevice = {
         credentialID: credential.id,
         credentialPublicKey: Buffer.from(credential.publicKey).toString('base64url'),
@@ -51,13 +49,13 @@ export async function POST(req: Request) {
           : undefined,
       };
 
-      user.devices.push(newDevice);
+      const devices = await getRegisteredDevices();
+      const nextDevices = devices.filter((device) => device.credentialID !== newDevice.credentialID);
+      nextDevices.push(newDevice);
 
-      // Write back to file
-      const filePath = path.join(process.cwd(), 'src/data/passkeys.json');
-      await fs.writeFile(filePath, JSON.stringify(passkeysData, null, 2));
-
+      await setRegisteredDevices(nextDevices);
       await clearChallengeCookie();
+      await createSession(userId);
 
       return NextResponse.json({ verified: true });
     }
