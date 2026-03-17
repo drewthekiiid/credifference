@@ -1,11 +1,11 @@
 import { generateAuthenticationOptions } from '@simplewebauthn/server';
 import { NextResponse } from 'next/server';
 import { getRegisteredDevices, setChallengeCookie } from '@/lib/auth/session';
+import { getRpId } from '@/lib/auth/webauthn';
 
-const rpID = process.env.RP_ID || 'localhost';
-
-export async function GET() {
+export async function GET(request: Request) {
   const devices = await getRegisteredDevices();
+  const rpID = getRpId(request);
 
   if (devices.length === 0) {
     return NextResponse.json(

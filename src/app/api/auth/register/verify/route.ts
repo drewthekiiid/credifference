@@ -7,13 +7,14 @@ import {
   getRegisteredDevices,
   setRegisteredDevices,
 } from '@/lib/auth/session';
+import { getExpectedOrigin, getRpId } from '@/lib/auth/webauthn';
 import type { StoredPasskeyDevice } from '@/types/ssot';
 
-const rpID = process.env.RP_ID || 'localhost';
-const expectedOrigin = process.env.EXPECTED_ORIGIN || 'http://localhost:3000';
 const userId = 'user-drew-123';
 
 export async function POST(req: Request) {
+  const rpID = getRpId(req);
+  const expectedOrigin = getExpectedOrigin(req);
   const body = await req.json();
   const expectedChallenge = await getChallengeCookie();
 
