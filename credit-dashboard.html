@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drew's SSOT Money & Credit Machine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap');
+        
+        :root {
+            --bg-color: #050505;
+            --card-bg: #111111;
+            --accent: #6366f1;
+            --text-main: #f8fafc;
+            --border-color: #262626;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4, .display-font {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .glass-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Custom Range Slider */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: #818cf8;
+            cursor: pointer;
+            margin-top: -10px;
+            box-shadow: 0 0 10px rgba(129, 140, 248, 0.5);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #333;
+            border-radius: 2px;
+        }
+
+        /* Flowchart lines */
+        .flow-arrow {
+            position: relative;
+        }
+        .flow-arrow::after {
+            content: '↓';
+            position: absolute;
+            bottom: -24px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #4b5563;
+            font-size: 1.2rem;
+        }
+        .flow-arrow-right::after {
+            content: '→';
+            position: absolute;
+            right: -24px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #4b5563;
+            font-size: 1.2rem;
+            bottom: auto;
+            left: auto;
+        }
+
+        .locked {
+            opacity: 0.4;
+            filter: grayscale(100%);
+            transition: all 0.5s ease;
+        }
+        .unlocked {
+            opacity: 1;
+            filter: grayscale(0%);
+            transition: all 0.5s ease;
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+            border-color: #4f46e5;
+        }
+
+        .badge {
+            padding: 2px 8px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto space-y-8">
+        <!-- Header & Interactive Score -->
+        <header class="glass-card p-6 md:p-8 sticky top-4 z-50 backdrop-blur-xl bg-[#111111]/90">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div>
+                    <h1 class="text-3xl font-bold tracking-tight display-font gradient-text">SSOT: The 10/10 Machine</h1>
+                    <p class="text-gray-400 mt-1">Interactive Architecture & Level Unlock System</p>
+                </div>
+                
+                <div class="w-full md:w-1/3 bg-black/50 p-4 rounded-xl border border-gray-800">
+                    <div class="flex justify-between items-end mb-2">
+                        <span class="text-sm text-gray-400 font-medium uppercase tracking-wider">Simulate Score</span>
+                        <span class="text-3xl font-bold display-font text-indigo-400" id="scoreDisplay">580</span>
+                    </div>
+                    <input type="range" id="scoreSlider" min="500" max="800" value="580" class="w-full">
+                    <div class="flex justify-between text-xs text-gray-500 mt-2">
+                        <span>Repair (500)</span>
+                        <span>Good (670)</span>
+                        <span>Pro (750+)</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+            
+            <!-- Left: The Flow Machine -->
+            <div class="xl:col-span-1 space-y-6">
+                <h2 class="text-xl font-bold display-font flex items-center gap-2 border-b border-gray-800 pb-3">
+                    <i data-lucide="git-merge" class="w-5 h-5 text-indigo-500"></i> 
+                    System Architecture
+                </h2>
+                
+                <div class="glass-card p-6 space-y-4 relative">
+                    <!-- Income -->
+                    <div class="bg-green-900/20 border border-green-900/50 p-4 rounded-lg text-center flow-arrow">
+                        <i data-lucide="dollar-sign" class="w-6 h-6 text-green-400 mx-auto mb-2"></i>
+                        <h3 class="font-bold text-green-400">Income Sources</h3>
+                        <p class="text-xs text-gray-400">W-2, Uber, Distributions</p>
+                    </div>
+
+                    <!-- Hub -->
+                    <div class="bg-blue-900/20 border border-blue-900/50 p-4 rounded-lg text-center flow-arrow">
+                        <i data-lucide="building" class="w-6 h-6 text-blue-400 mx-auto mb-2"></i>
+                        <h3 class="font-bold text-blue-400">Chase Private Client</h3>
+                        <p class="text-xs text-gray-400">Primary Hub & Credibility Engine</p>
+                    </div>
+
+                    <!-- Allocation Split -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-indigo-900/20 border border-indigo-900/50 p-3 rounded-lg text-center">
+                            <h3 class="font-bold text-indigo-400 text-sm">Ally Bank</h3>
+                            <p class="text-xs text-gray-400">6-9mo Vault</p>
+                        </div>
+                        <div class="bg-purple-900/20 border border-purple-900/50 p-3 rounded-lg text-center">
+                            <h3 class="font-bold text-purple-400 text-sm">Fidelity</h3>
+                            <p class="text-xs text-gray-400">SPAXX / FXAIX</p>
+                        </div>
+                    </div>
+
+                    <!-- Credit Routing -->
+                    <div class="bg-emerald-900/20 border border-emerald-900/50 p-4 rounded-lg text-center flow-arrow mt-4">
+                        <i data-lucide="credit-card" class="w-6 h-6 text-emerald-400 mx-auto mb-2"></i>
+                        <h3 class="font-bold text-emerald-400">Credit System</h3>
+                        <p class="text-xs text-gray-400">All expenses routed here. Paid in full via Chase.</p>
+                    </div>
+
+                    <!-- Crypto Engine -->
+                    <div class="bg-orange-900/20 border border-orange-900/50 p-4 rounded-lg mt-4">
+                        <div class="text-center mb-3">
+                            <i data-lucide="bitcoin" class="w-6 h-6 text-orange-400 mx-auto mb-1"></i>
+                            <h3 class="font-bold text-orange-400">Crypto Drift Engine</h3>
+                        </div>
+                        <div class="space-y-2 text-xs">
+                            <div class="flex justify-between items-center bg-black/30 p-2 rounded">
+                                <span>1. Coinbase</span> <i data-lucide="arrow-right" class="w-3 h-3"></i> <span>Fiat Bridge</span>
+                            </div>
+                            <div class="flex justify-between items-center bg-black/30 p-2 rounded">
+                                <span>2. Phantom</span> <i data-lucide="arrow-right" class="w-3 h-3"></i> <span>Vault (USDC)</span>
+                            </div>
+                            <div class="flex justify-between items-center bg-black/30 p-2 rounded">
+                                <span>3. Kamino</span> <i data-lucide="arrow-right" class="w-3 h-3"></i> <span>Yield Layer</span>
+                            </div>
+                            <div class="flex justify-between items-center bg-black/30 p-2 rounded">
+                                <span>4. Drift</span> <i data-lucide="arrow-right" class="w-3 h-3"></i> <span>Trading Bot</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Level Unlock System -->
+            <div class="xl:col-span-2 space-y-6">
+                <h2 class="text-xl font-bold display-font flex items-center gap-2 border-b border-gray-800 pb-3">
+                    <i data-lucide="unlock" class="w-5 h-5 text-indigo-500"></i> 
+                    Level Unlock System
+                </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="unlockGrid">
+                    
+                    <!-- Level 1: Foundation -->
+                    <div class="glass-card p-5 stack-item unlocked" data-req="500">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Level 1: Foundation</span>
+                                <h3 class="text-lg font-bold mt-1">Dispute & Vault Setup</h3>
+                            </div>
+                            <i data-lucide="check-circle" class="w-5 h-5 text-green-500 status-icon"></i>
+                        </div>
+                        <ul class="text-sm text-gray-400 space-y-2">
+                            <li>• Credit Versio Dispute Engine</li>
+                            <li>• myFICO / SmartCredit Active</li>
+                            <li>• Ally Bank (Safety Net)</li>
+                            <li>• Fidelity (Base Account)</li>
+                        </ul>
+                        <div class="mt-4 text-xs bg-gray-800/50 p-2 rounded text-gray-300">
+                            <strong>Req:</strong> Breathing pulse. Start here.
+                        </div>
+                    </div>
+
+                    <!-- Level 2: Mid-Tier Credit -->
+                    <div class="glass-card p-5 stack-item locked" data-req="660">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Level 2: Core Credit</span>
+                                <h3 class="text-lg font-bold mt-1">Apple & Amazon</h3>
+                            </div>
+                            <i data-lucide="lock" class="w-5 h-5 text-gray-600 status-icon"></i>
+                        </div>
+                        <ul class="text-sm text-gray-400 space-y-2">
+                            <li>• Apple Card (Apple Pay)</li>
+                            <li>• Amazon Prime Visa</li>
+                            <li>• AZEO Strategy Implementation</li>
+                        </ul>
+                        <div class="mt-4 text-xs bg-gray-800/50 p-2 rounded text-gray-300">
+                            <strong>Req:</strong> ~660 FICO. No recent collections.
+                        </div>
+                    </div>
+
+                    <!-- Level 3: Pro Credit -->
+                    <div class="glass-card p-5 stack-item locked" data-req="690">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Level 3: Pro Operator</span>
+                                <h3 class="text-lg font-bold mt-1">Amex Gold & Fidelity Visa</h3>
+                            </div>
+                            <i data-lucide="lock" class="w-5 h-5 text-gray-600 status-icon"></i>
+                        </div>
+                        <ul class="text-sm text-gray-400 space-y-2">
+                            <li>• Amex Gold (Daily Life)</li>
+                            <li>• Fidelity Visa (2% Catch-all)</li>
+                            <li>• Float optimization (30-60 days)</li>
+                        </ul>
+                        <div class="mt-4 text-xs bg-gray-800/50 p-2 rounded text-gray-300">
+                            <strong>Req:</strong> ~690+ FICO. Clean history. Solid income.
+                        </div>
+                    </div>
+
+                    <!-- Level 4: Elite Banking -->
+                    <div class="glass-card p-5 stack-item locked" data-req="720">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Level 4: Elite Hub</span>
+                                <h3 class="text-lg font-bold mt-1">Chase CPC & Amex Plat</h3>
+                            </div>
+                            <i data-lucide="lock" class="w-5 h-5 text-gray-600 status-icon"></i>
+                        </div>
+                        <ul class="text-sm text-gray-400 space-y-2">
+                            <li>• Chase Private Client Hub</li>
+                            <li>• Amex Platinum (Travel/Status)</li>
+                            <li>• Institutional-level cashflow routing</li>
+                        </ul>
+                        <div class="mt-4 text-xs bg-gray-800/50 p-2 rounded text-gray-300">
+                            <strong>Req:</strong> 720+ FICO. $150k+ balance OR high direct deposits for CPC.
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Action Plan Table (Always visible) -->
+                <div class="glass-card p-6 mt-6">
+                    <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                        <i data-lucide="target" class="w-5 h-5 text-red-400"></i>
+                        Current Blockers (To reach Level 2+)
+                    </h3>
+                    <div class="overflow-x-auto custom-scrollbar">
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-xs text-gray-400 uppercase bg-gray-900/50">
+                                <tr>
+                                    <th class="px-4 py-2 rounded-tl-lg">Item</th>
+                                    <th class="px-4 py-2">Status</th>
+                                    <th class="px-4 py-2 rounded-tr-lg">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-800">
+                                <tr>
+                                    <td class="px-4 py-2">Verizon ($1,370)</td>
+                                    <td class="px-4 py-2"><span class="text-red-400 text-xs border border-red-900 bg-red-900/20 px-2 py-1 rounded">Collection</span></td>
+                                    <td class="px-4 py-2 text-gray-400">Credit Versio Dispute</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2">Midland Credit ($898)</td>
+                                    <td class="px-4 py-2"><span class="text-red-400 text-xs border border-red-900 bg-red-900/20 px-2 py-1 rounded">Collection</span></td>
+                                    <td class="px-4 py-2 text-gray-400">Dispute / Pay for Delete</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2">Sunrise Credit ($677)</td>
+                                    <td class="px-4 py-2"><span class="text-red-400 text-xs border border-red-900 bg-red-900/20 px-2 py-1 rounded">Collection</span></td>
+                                    <td class="px-4 py-2 text-gray-400">Credit Versio Dispute</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2">Merrick & First Premier</td>
+                                    <td class="px-4 py-2"><span class="text-yellow-500 text-xs border border-yellow-900 bg-yellow-900/20 px-2 py-1 rounded">Charge Off</span></td>
+                                    <td class="px-4 py-2 text-gray-400">Dispute Inaccuracies</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2">Perpay & StellarFinance</td>
+                                    <td class="px-4 py-2"><span class="text-blue-400 text-xs border border-blue-900 bg-blue-900/20 px-2 py-1 rounded">Past Due</span></td>
+                                    <td class="px-4 py-2 font-bold text-white">Bring Current ASAP</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        const slider = document.getElementById('scoreSlider');
+        const display = document.getElementById('scoreDisplay');
+        const items = document.querySelectorAll('.stack-item');
+
+        function updateUnlocks(score) {
+            display.innerText = score;
+            
+            items.forEach(item => {
+                const req = parseInt(item.getAttribute('data-req'));
+                const icon = item.querySelector('.status-icon');
+                
+                if (score >= req) {
+                    item.classList.remove('locked');
+                    item.classList.add('unlocked');
+                    // Update icon to unlocked/check
+                    icon.setAttribute('data-lucide', 'check-circle');
+                    icon.classList.remove('text-gray-600');
+                    icon.classList.add('text-green-500');
+                } else {
+                    item.classList.remove('unlocked');
+                    item.classList.add('locked');
+                    // Update icon to locked
+                    icon.setAttribute('data-lucide', 'lock');
+                    icon.classList.remove('text-green-500');
+                    icon.classList.add('text-gray-600');
+                }
+            });
+            
+            // Re-render icons
+            lucide.createIcons();
+        }
+
+        slider.addEventListener('input', (e) => {
+            updateUnlocks(e.target.value);
+        });
+
+        // Initial run
+        updateUnlocks(slider.value);
+    </script>
+</body>
+</html>
