@@ -1,0 +1,17 @@
+---
+description: Cursor Cloud Agent roster and org-mcp availability
+alwaysApply: true
+---
+
+# Cursor Cloud Agents
+
+- Project agents live in `.cursor/agents/` and are the source of truth for DBLVSN and The Agentsy subagent names.
+- This shared kit intentionally installs DBLVSN and The Agentsy agents only.
+- Cursor Cloud Agents can use project subagents from `.cursor/agents/` when those files are present on the branch the cloud agent cloned.
+- Use exact `name` frontmatter values as `subagent_type`. If `org-mcp` is available, `get_agent_roster` is the structured roster source; otherwise inspect `.cursor/agents/`.
+- Do not use `general-purpose` / `generalPurpose` for assigned work when the assigned agent exists in the roster.
+- Skill assignments are selective and documented in `docs/AGENT_SKILL_MAP.md`.
+- Skills are optional accelerators. If a named skill is not installed or discoverable in a cloud environment, continue with direct repo tools, workroom records, and project rules instead of blocking.
+- Do not rely on local-only paths such as `~/.cursor/plugins/`, `~/.cursor/agents/`, or absolute `/Users/...` paths for Cloud Agent behavior.
+- Project skill references should use skill names and project-relative docs, not absolute local plugin-cache paths.
+- Keep Cloud Agent setup/test instructions in `AGENTS.md`; keep long reference material in docs.

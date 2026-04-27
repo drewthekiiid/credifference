@@ -7,41 +7,50 @@ import { motion } from 'framer-motion';
 const LEVELS = [
   {
     id: 1,
-    title: 'Foundation',
-    req: 500,
-    items: ['Credit Versio Dispute Engine', 'myFICO / SmartCredit Active', 'Ally Bank (Safety Net)', 'Fidelity (Base Account)'],
+    title: 'Stabilize',
+    req: 580,
+    items: ['Monarch linked', 'Credit Versio live', 'myFICO + SmartCredit active', 'Ally + Fidelity base accounts'],
   },
   {
     id: 2,
-    title: 'Core Credit',
-    req: 660,
-    items: ['Apple Card (Apple Pay)', 'Amazon Prime Visa', 'AZEO Strategy Implementation'],
+    title: 'Clean Revolver',
+    req: 640,
+    items: ['Perpay and Stellar current', 'Capital One under control', 'AZEO workflow started', 'No fresh lates'],
   },
   {
     id: 3,
-    title: 'Pro Operator',
-    req: 690,
-    items: ['Amex Gold (Daily Life)', 'Fidelity Visa (2% Catch-all)', 'Float optimization (30-60 days)'],
+    title: 'Everyday Cards',
+    req: 660,
+    items: ['Apple Card', 'Amazon Prime Visa', 'Routine statement control'],
   },
   {
     id: 4,
-    title: 'Elite Hub',
+    title: 'Premium Core',
+    req: 690,
+    items: ['Amex Gold', 'Fidelity Visa', 'Roth IRA automation', 'Solo 401(k) shell'],
+  },
+  {
+    id: 5,
+    title: 'Elite Ops',
     req: 720,
-    items: ['Chase Private Client Hub', 'Amex Platinum (Travel/Status)', 'Institutional-level cashflow routing'],
-  }
+    items: ['Chase Private Client', 'Amex Platinum', 'Phantom vault', 'Kamino only after true surplus'],
+  },
 ];
 
 export function LevelUnlock({ currentScore }: { currentScore: number }) {
   return (
-    <Card className="bg-[#111111] border-slate-800">
+    <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 font-display">
-          <Unlock className="w-5 h-5 text-indigo-400" />
-          The 10/10 Stack Unlocks
+        <CardTitle className="flex items-center gap-3 font-display">
+          <Unlock className="h-5 w-5 text-[color:var(--text)]" />
+          Stack Unlock Map
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="mb-8 rounded-2xl border border-[color:var(--border)] bg-[color:var(--panel-muted)] p-5 text-sm leading-relaxed muted-copy font-light">
+          Estimated gates only. Replace the working score with real myFICO data before timing applications.
+        </div>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {LEVELS.map((level, i) => {
             const isUnlocked = currentScore >= level.req;
             return (
@@ -50,35 +59,44 @@ export function LevelUnlock({ currentScore }: { currentScore: number }) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
-                className={`p-5 rounded-xl border relative overflow-hidden transition-all duration-500 ${
+                className={`relative flex flex-col justify-between rounded-[24px] border p-6 transition-all duration-500 ${
                   isUnlocked 
-                    ? 'bg-indigo-950/10 border-indigo-500/30 shadow-[0_0_15px_rgba(99,102,241,0.1)]' 
-                    : 'bg-black/40 border-slate-800 grayscale opacity-60'
+                    ? 'border-[color:var(--text)] bg-[color:var(--text)] text-[color:var(--bg)] shadow-[var(--shadow-luxe)]'
+                    : 'border-[color:var(--border)] bg-[color:var(--panel-muted)] opacity-80'
                 }`}
               >
-                <div className="flex justify-between items-start mb-3">
-                  <div>
-                    <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Level {level.id}</span>
-                    <h3 className={`text-lg font-bold mt-1 font-display ${isUnlocked ? 'text-slate-100' : 'text-slate-400'}`}>
-                      {level.title}
-                    </h3>
+                <div>
+                  <div className="mb-6 flex items-start justify-between">
+                    <div>
+                      <span className={`editorial-kicker ${isUnlocked ? 'text-[color:var(--bg)] opacity-70' : ''}`}>Level {level.id}</span>
+                      <h3 className={`mt-2 font-display text-3xl tracking-tight ${isUnlocked ? 'text-[color:var(--bg)]' : 'text-[color:var(--text)]'}`}>
+                        {level.title}
+                      </h3>
+                    </div>
+                    {isUnlocked ? (
+                      <CheckCircle className="h-5 w-5 text-[color:var(--bg)]" />
+                    ) : (
+                      <Lock className="h-5 w-5 text-[color:var(--soft)]" />
+                    )}
                   </div>
-                  {isUnlocked ? (
-                    <CheckCircle className="w-5 h-5 text-emerald-500" />
-                  ) : (
-                    <Lock className="w-5 h-5 text-slate-600" />
-                  )}
+
+                  <ul className={`space-y-3 text-sm leading-relaxed font-light ${isUnlocked ? 'text-[color:var(--bg)] opacity-90' : 'muted-copy'}`}>
+                    {level.items.map((item, j) => (
+                      <li key={j} className="flex items-start gap-3">
+                        <span className={`mt-[0.4rem] h-1 w-1 rounded-full ${isUnlocked ? 'bg-[color:var(--bg)]' : 'bg-[color:var(--text)]'}`}></span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <ul className="text-sm text-slate-400 space-y-2">
-                  {level.items.map((item, j) => (
-                    <li key={j} className="flex items-start gap-2">
-                      <span className="text-indigo-500/50 mt-0.5">•</span> {item}
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-4 text-xs bg-black/50 p-2 rounded text-slate-300 flex justify-between items-center">
-                  <span><strong>Req:</strong> {level.req} FICO</span>
-                  {!isUnlocked && <span className="text-slate-500">{level.req - currentScore} pts away</span>}
+
+                <div className={`mt-8 flex items-center justify-between border-t pt-4 text-xs uppercase tracking-widest font-medium ${
+                  isUnlocked 
+                    ? 'border-[color:var(--bg)]/20 text-[color:var(--bg)]' 
+                    : 'border-[color:var(--border)] text-[color:var(--muted)]'
+                }`}>
+                  <span>Req: {level.req} FICO</span>
+                  {!isUnlocked && <span>{level.req - currentScore} pts away</span>}
                 </div>
               </motion.div>
             );
