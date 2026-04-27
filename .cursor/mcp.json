@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "org-mcp": {
+      "command": "node",
+      "args": [
+        "tools/org-mcp/server.mjs"
+      ],
+      "env": {
+        "ORG_MCP_ROOT": "${workspaceFolder}"
+      }
+    }
+  }
+}
