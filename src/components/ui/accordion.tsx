@@ -83,7 +83,7 @@ function AccordionTrigger({
       aria-expanded={isOpen}
       onClick={handleClick}
       className={cn(
-        "flex w-full items-start justify-between gap-4 py-2.5 text-left text-sm font-medium text-slate-200 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/60 rounded-lg",
+        "flex w-full items-start justify-between gap-4 rounded-lg py-2.5 text-left text-sm font-medium text-[color:var(--text)] transition-colors hover:text-[color:var(--muted)] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[color:var(--text)]",
         className
       )}
       {...props}
@@ -91,7 +91,7 @@ function AccordionTrigger({
       {children}
       <ChevronDownIcon
         className={cn(
-          "mt-0.5 h-4 w-4 shrink-0 text-slate-500 transition-transform duration-200",
+          "mt-0.5 h-4 w-4 shrink-0 text-[color:var(--soft)] transition-transform duration-200",
           isOpen && "rotate-180"
         )}
       />

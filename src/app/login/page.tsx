@@ -5,7 +5,9 @@ import { startAuthentication, startRegistration } from '@simplewebauthn/browser'
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Fingerprint, ShieldCheck } from 'lucide-react';
+import { BrandLockup } from '@/components/BrandLockup';
+import { BrandMark } from '@/components/BrandMark';
+import { Fingerprint, LoaderCircle } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -91,46 +93,89 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#050505] p-4 font-sans text-slate-100">
-      <Card className="w-full max-w-md bg-[#111111] border-slate-800 text-slate-100 shadow-2xl">
-        <CardHeader className="text-center space-y-2">
-          <div className="mx-auto w-12 h-12 bg-indigo-500/10 rounded-full flex items-center justify-center mb-4">
-            <ShieldCheck className="w-6 h-6 text-indigo-400" />
-          </div>
-          <CardTitle className="text-2xl font-bold tracking-tight font-display">SSOT Command Center</CardTitle>
-          <CardDescription className="text-slate-400">
-            Biometric access required.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {error && (
-            <div className="p-3 text-sm text-red-400 bg-red-400/10 border border-red-400/20 rounded-md">
-              {error}
-            </div>
-          )}
-          
-          <Button 
-            onClick={handleLogin} 
-            disabled={loading}
-            className="w-full h-12 bg-indigo-600 hover:bg-indigo-700 text-white font-medium flex items-center gap-2"
-          >
-            <Fingerprint className="w-5 h-5" />
-            {loading ? 'Authenticating...' : 'Authenticate with Passkey'}
-          </Button>
+    <div className="min-h-screen px-4 py-8 md:py-12 flex items-center justify-center">
+      <div className="mx-auto grid w-full max-w-7xl gap-8 lg:grid-cols-[1.1fr_0.9fr] items-center">
+        <section className="glass-card rounded-[32px] p-8 lg:hidden">
+          <BrandLockup
+            eyebrow="Secured Entry"
+            subtitle="Quiet luxury. Hard truth."
+            description="A private command center for your credit rebuild and stack sequencing. Biometric only."
+          />
+        </section>
 
-          <div className="pt-6 mt-6 border-t border-slate-800 text-center">
-            <p className="text-xs text-slate-500 mb-3">First time here? Register this device.</p>
-            <Button 
-              onClick={handleRegister} 
-              disabled={loading}
-              variant="outline"
-              className="w-full border-slate-700 hover:bg-slate-800 text-slate-300"
-            >
-              Register New Device
-            </Button>
+        <section className="hidden lg:flex lg:flex-col lg:justify-center lg:pr-12">
+          <BrandLockup
+            hero
+            eyebrow="Secured Entry"
+            subtitle="Quiet luxury. Hard truth."
+            description="The command center is built to feel premium, but it behaves like an operator console. Passkey-only access keeps the system private and frictionless."
+            className="max-w-xl"
+          />
+
+          <div className="mt-16 grid gap-6 md:grid-cols-3">
+            <div className="space-y-2">
+              <p className="editorial-kicker">Signal</p>
+              <p className="font-display text-4xl text-(--text)">3</p>
+              <p className="text-sm muted-copy leading-relaxed">Bureaus in one source of truth.</p>
+            </div>
+            <div className="space-y-2">
+              <p className="editorial-kicker">Theme</p>
+              <p className="font-display text-4xl text-(--text)">Auto</p>
+              <p className="text-sm muted-copy leading-relaxed">Adapts to system light and dark mode.</p>
+            </div>
+            <div className="space-y-2">
+              <p className="editorial-kicker">Access</p>
+              <p className="font-display text-4xl text-(--text)">Face ID</p>
+              <p className="text-sm muted-copy leading-relaxed">Biometric only. No password clutter.</p>
+            </div>
           </div>
-        </CardContent>
-      </Card>
+        </section>
+
+        <Card className="w-full max-w-md mx-auto rounded-[32px] glass-card lg:ml-auto">
+          <CardHeader className="text-center pb-8 pt-10">
+            <BrandMark className="mx-auto mb-6" size="lg" />
+            <p className="editorial-kicker">Private entry</p>
+            <CardTitle className="mt-4 font-display text-3xl tracking-normal font-normal">Credifference</CardTitle>
+            <CardDescription className="mx-auto mt-3 max-w-xs text-sm leading-relaxed">
+              SSOT Command Center. Biometric access only.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6 px-8 pb-10">
+            <div aria-live="polite" className="min-h-0">
+              {error && (
+                <div className="rounded-[20px] border border-red-400/20 bg-red-400/10 p-3 text-sm text-red-400">
+                  {error}
+                </div>
+              )}
+            </div>
+            
+            <Button 
+              onClick={handleLogin} 
+              disabled={loading}
+              aria-busy={loading}
+              className="h-12 w-full gap-2"
+            >
+              {loading ? <LoaderCircle className="h-5 w-5 animate-spin" /> : <Fingerprint className="h-5 w-5" />}
+              {loading ? 'Authenticating...' : 'Authenticate with Passkey'}
+            </Button>
+
+            <div className="border-t border-(--border) pt-6 text-center">
+              <p className="mb-3 text-xs uppercase tracking-[0.2em] text-(--soft)">
+                First time here? Register this device.
+              </p>
+              <Button 
+                onClick={handleRegister} 
+                disabled={loading}
+                aria-busy={loading}
+                variant="outline"
+                className="h-12 w-full"
+              >
+                Register New Device
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

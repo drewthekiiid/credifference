@@ -1,43 +1,74 @@
 {
   "scoreHistory": [
-    { "date": "2025-10-01", "score": 520 },
-    { "date": "2025-11-01", "score": 535 },
-    { "date": "2025-12-01", "score": 540 },
-    { "date": "2026-01-01", "score": 555 },
-    { "date": "2026-02-01", "score": 565 },
     { "date": "2026-03-17", "score": 580 }
   ],
   "currentScore": 580,
+  "scoreMeta": {
+    "label": "Working baseline",
+    "note": "AnnualCreditReport PDFs do not include true FICO scores. Replace this placeholder with myFICO and SmartCredit as soon as monitoring is active.",
+    "goal": 800
+  },
+  "bureauReports": [
+    {
+      "bureau": "Experian",
+      "reportDate": "2026-03-17",
+      "summary": "Most cluttered file of the three. It shows the core collections and charge-offs plus Experian-only live pain like StellarFinance and the I C System collection.",
+      "highlights": [
+        "Verizon, Midland, Sunrise, Merrick, First Premier, Perpay, Capital One all report here",
+        "Only bureau in this stack clearly showing StellarFinance as a live past-due line",
+        "Carries older derogatory history from Austin Capital, Brigit, and Sezzle"
+      ]
+    },
+    {
+      "bureau": "Equifax",
+      "reportDate": "2026-03-17",
+      "summary": "Confirms the core derogatory set and current balances on Capital One and Perpay. It also surfaces legacy late-trade damage like Austin Capital, Brigit, and Carmax.",
+      "highlights": [
+        "Confirms Verizon, Midland, Merrick, First Premier, Perpay, Sunrise, and Capital One",
+        "Does not show I C System or StellarFinance in this PDF",
+        "Shows Carmax auto late history that can drag approvals even though the loan is current"
+      ]
+    },
+    {
+      "bureau": "TransUnion",
+      "reportDate": "2026-03-17",
+      "summary": "Confirms Verizon, I C Systems, Midland, Sunrise, Merrick, First Premier, Perpay, and Capital One while also carrying old late-trade damage from Brigit, Austin Capital, Sezzle, and Carmax.",
+      "highlights": [
+        "Confirms the I C Systems Comcast collection that Equifax does not show",
+        "Shows Perpay at 120 days past due and Capital One as current with heavy historical lates",
+        "Carries legacy late marks from Austin Capital, Brigit, Sezzle, and Carmax"
+      ]
+    }
+  ],
   "blockers": [
     {
       "id": "verizon",
       "creditor": "Verizon Wireless",
       "type": "Collection",
       "amount": 1370,
-      "status": "disputed",
-      "disputeDate": "2026-03-18",
-      "documents": [
-        {
-          "name": "Round 1 Dispute Letter",
-          "url": "/docs/verizon_dispute_r1.pdf",
-          "type": "pdf"
-        },
-        {
-          "name": "USPS Certified Receipt",
-          "url": "/docs/verizon_usps.jpg",
-          "type": "image"
-        }
-      ]
+      "balanceAmount": 1370,
+      "status": "pending",
+      "disputeDate": null,
+      "documents": [],
+      "bureaus": ["Experian", "Equifax", "TransUnion"],
+      "nextStep": "Build one clean validation and identity packet, then send it only when you are ready to track mailing proof and response deadlines.",
+      "notes": "All three bureaus still show this as a live collection. Prior dispute language appears in bureau data, but your SSOT should treat this as not worked until you have your own proof trail.",
+      "estimatedRemoval": "2031"
     },
     {
       "id": "midland",
-      "creditor": "Midland Credit Mgmt",
+      "creditor": "Midland Credit Management",
       "originalCreditor": "Credit One Bank",
       "type": "Collection",
       "amount": 898,
+      "balanceAmount": 898,
       "status": "pending",
       "disputeDate": null,
-      "documents": []
+      "documents": [],
+      "bureaus": ["Experian", "Equifax", "TransUnion"],
+      "nextStep": "Open a validation case first, confirm chain-of-title from Credit One, and decide whether this is a dispute-first or settlement-first file.",
+      "notes": "This is a three-bureau debt buyer collection and one of the biggest score suppressors on the file.",
+      "estimatedRemoval": "2030"
     },
     {
       "id": "sunrise",
@@ -45,99 +76,499 @@
       "originalCreditor": "Commonwealth Edison",
       "type": "Collection",
       "amount": 677,
+      "balanceAmount": 677,
       "status": "pending",
       "disputeDate": null,
-      "documents": []
+      "documents": [],
+      "bureaus": ["Experian", "Equifax", "TransUnion"],
+      "nextStep": "Pull service dates, address history, and utility records so you can challenge ownership or settle from a position of facts.",
+      "notes": "This utility collection is confirmed on all three reports and should be handled in the first dispute wave with Verizon and Midland.",
+      "estimatedRemoval": "2031-2032"
     },
     {
       "id": "ic-system",
-      "creditor": "I C System Inc",
+      "creditor": "I C Systems",
       "originalCreditor": "Comcast Xfinity",
       "type": "Collection",
       "amount": 50,
+      "balanceAmount": 50,
       "status": "pending",
       "disputeDate": null,
-      "documents": []
+      "documents": [],
+      "bureaus": ["Experian", "TransUnion"],
+      "nextStep": "Because the balance is tiny, choose fast written validation or a written pay-for-delete style settlement attempt before wasting cycles.",
+      "notes": "This one is not showing on Equifax, which makes it a cleaner targeted cleanup candidate.",
+      "estimatedRemoval": "2031"
     },
     {
       "id": "merrick",
-      "creditor": "Merrick Bank Corp",
+      "creditor": "Merrick Bank",
       "type": "Charge Off",
       "amount": 859,
+      "balanceAmount": 859,
       "status": "pending",
       "disputeDate": null,
-      "documents": []
+      "documents": [],
+      "bureaus": ["Experian", "Equifax", "TransUnion"],
+      "nextStep": "Decide if this is a validation, settlement, or age-and-monitor file, but do not leave it unplanned because it is reporting across all three.",
+      "notes": "Three-bureau charge-off with long severe delinquency history. It is one of the biggest approval killers on the file.",
+      "estimatedRemoval": "2030"
     },
     {
       "id": "first-premier",
       "creditor": "First Premier",
       "type": "Charge Off",
       "amount": 483,
+      "balanceAmount": 483,
       "status": "pending",
       "disputeDate": null,
-      "documents": []
-    },
-    {
-      "id": "stellar",
-      "creditor": "StellarFinance Inc",
-      "type": "Past Due",
-      "amount": 513,
-      "status": "action_required",
-      "disputeDate": null,
-      "documents": []
+      "documents": [],
+      "bureaus": ["Experian", "Equifax", "TransUnion"],
+      "nextStep": "Pair this with Merrick in the charge-off strategy lane so both accounts get a written decision instead of sitting unresolved.",
+      "notes": "Another three-bureau charge-off. Smaller than Merrick, but still toxic because it confirms repeated revolving default behavior.",
+      "estimatedRemoval": "2030"
     },
     {
       "id": "perpay",
-      "creditor": "Perpay Inc",
+      "creditor": "Perpay / Celtic",
       "type": "Past Due",
-      "amount": 135,
+      "amount": 727,
+      "balanceAmount": 727,
+      "pastDueAmount": 135,
       "status": "action_required",
       "disputeDate": null,
-      "documents": []
+      "documents": [],
+      "bureaus": ["Experian", "Equifax", "TransUnion"],
+      "nextStep": "Get this current immediately or secure a written hardship/payment arrangement before it becomes another charge-off.",
+      "notes": "All three bureaus show live delinquency. The total balance is $727, but the immediate cure amount is the $135 past due.",
+      "estimatedRemoval": "2032 if left derogatory"
+    },
+    {
+      "id": "stellar",
+      "creditor": "StellarFinance",
+      "type": "Past Due",
+      "amount": 513,
+      "balanceAmount": 513,
+      "pastDueAmount": 513,
+      "status": "action_required",
+      "disputeDate": null,
+      "documents": [],
+      "bureaus": ["Experian"],
+      "nextStep": "Treat this as a same-week cash triage item. Bring it current or settle it before layering on any new credit strategy.",
+      "notes": "Experian is the only bureau clearly reporting this live past-due line, but one active delinquency is enough to derail near-term approvals.",
+      "estimatedRemoval": "2030 if unresolved"
+    },
+    {
+      "id": "capital-one",
+      "creditor": "Capital One",
+      "type": "Late History",
+      "amount": 535,
+      "balanceAmount": 535,
+      "pastDueAmount": 0,
+      "status": "action_required",
+      "disputeDate": null,
+      "documents": [],
+      "bureaus": ["Experian", "Equifax", "TransUnion"],
+      "nextStep": "Push utilization below 30% of the $500 limit immediately, then below 10% when possible, and do not miss another payment.",
+      "notes": "The account is current now, but all three bureaus still reflect severe historical delinquencies and over-limit behavior. This is the live revolving control problem in the file.",
+      "estimatedRemoval": "2032 for old lates"
+    }
+  ],
+  "legacyIssues": [
+    {
+      "id": "austin-capital",
+      "creditor": "Austin Capital Bank SSB",
+      "issue": "Closed secured loan that still reports 30/60-day late history from early 2025.",
+      "bureaus": ["Experian", "Equifax", "TransUnion"],
+      "strategy": "Lower priority than live collections. Revisit as a goodwill or accuracy-cleanup project after the current negatives are stabilized.",
+      "estimatedRemoval": "2032"
+    },
+    {
+      "id": "brigit",
+      "creditor": "Brigit / Coastal Community Bank / Bridge It",
+      "issue": "Paid and closed, but the file still carries late-payment history from 2025.",
+      "bureaus": ["Experian", "Equifax", "TransUnion"],
+      "strategy": "Archive as a legacy late mark and only chase cleanup after the live collections, charge-offs, and current delinquencies are under control.",
+      "estimatedRemoval": "2032"
+    },
+    {
+      "id": "carmax",
+      "creditor": "Carmax Auto Finance",
+      "issue": "Current auto loan with prior 30/30/60/60 late history in 2025.",
+      "bureaus": ["Equifax", "TransUnion"],
+      "strategy": "Keep perfect going forward and avoid piling on new leverage while this seasoning period is still fresh."
+    },
+    {
+      "id": "sezzle",
+      "creditor": "Sezzle",
+      "issue": "Zero-balance line that still carries heavy 2021-2022 late history.",
+      "bureaus": ["Experian", "Equifax", "TransUnion"],
+      "strategy": "No immediate action needed, but do not add new BNPL exposure while rebuilding."
+    }
+  ],
+  "stackChecklist": [
+    {
+      "id": "monarch",
+      "category": "Wealth OS",
+      "name": "Monarch Money",
+      "status": "build_now",
+      "requirement": "Needs complete account linking and a weekly review habit.",
+      "nextStep": "Connect checking, savings, Capital One, Perpay, Carmax, and every live liability this week.",
+      "blockedBy": []
+    },
+    {
+      "id": "credit-versio",
+      "category": "Credit Ops",
+      "name": "Credit Versio",
+      "status": "build_now",
+      "requirement": "Needs a clean three-bureau case inventory and dispute calendar.",
+      "nextStep": "Create cases for Verizon, Midland, Sunrise, I C Systems, Merrick, and First Premier.",
+      "blockedBy": []
+    },
+    {
+      "id": "myfico",
+      "category": "Credit Ops",
+      "name": "myFICO",
+      "status": "build_now",
+      "requirement": "Needed for real FICO baselines and lender-grade score tracking.",
+      "nextStep": "Buy the monitoring plan and log all mortgage, auto, and card scores monthly.",
+      "blockedBy": []
+    },
+    {
+      "id": "smartcredit",
+      "category": "Credit Ops",
+      "name": "SmartCredit",
+      "status": "build_now",
+      "requirement": "Needed for weekly pulse checks between myFICO pulls.",
+      "nextStep": "Use it for weekly bureau monitoring, but treat myFICO as the score authority.",
+      "blockedBy": []
+    },
+    {
+      "id": "ally",
+      "category": "Cash Safety",
+      "name": "Ally Emergency Vault",
+      "status": "build_now",
+      "requirement": "Needs a dedicated savings bucket and automatic transfers.",
+      "nextStep": "Open the vault and fund the first month of runway before chasing premium cards.",
+      "blockedBy": []
+    },
+    {
+      "id": "fidelity-core",
+      "category": "Investing Core",
+      "name": "Fidelity Core / SPAXX",
+      "status": "build_now",
+      "requirement": "Needs a clean base brokerage and cash management workflow.",
+      "nextStep": "Open the base account and define SPAXX as the parking layer for investable cash.",
+      "blockedBy": []
+    },
+    {
+      "id": "roth-ira",
+      "category": "Investing Core",
+      "name": "Roth IRA",
+      "status": "sequence_next",
+      "requirement": "Emergency fund and monthly free cash flow need to exist first.",
+      "nextStep": "Open the shell now if you want, but only automate contributions after cash triage is stable.",
+      "blockedBy": ["Emergency fund not built", "Live negative accounts still unresolved"]
+    },
+    {
+      "id": "solo-401k",
+      "category": "Investing Core",
+      "name": "Solo 401(k)",
+      "status": "sequence_next",
+      "requirement": "Requires stable self-employment income and tax process discipline.",
+      "nextStep": "Set this up after Monarch, emergency reserves, and Fidelity base workflows are stable.",
+      "blockedBy": ["Need clean income workflow", "Need cash buffer first"]
+    },
+    {
+      "id": "phantom",
+      "category": "Crypto Layer",
+      "name": "Phantom Vault Wallet",
+      "status": "sequence_next",
+      "requirement": "Only useful after cash reserves and taxes are under control.",
+      "nextStep": "Create the wallet after the cash safety layer is live, not before.",
+      "blockedBy": ["Emergency fund first"]
+    },
+    {
+      "id": "kamino",
+      "category": "Crypto Layer",
+      "name": "Kamino Yield Layer",
+      "status": "locked",
+      "requirement": "Needs surplus cash, risk budget, and a non-chaotic core financial system.",
+      "nextStep": "Do not touch this until disputes, delinquent accounts, and emergency reserves are stable.",
+      "blockedBy": ["Collections unresolved", "No emergency fund", "No true surplus yet"]
+    },
+    {
+      "id": "apple-card",
+      "category": "Card Stack",
+      "name": "Apple Card",
+      "status": "locked",
+      "requirement": "Usually wants a cleaner recent file and roughly 660+ real FICO.",
+      "nextStep": "Hold until collections and live delinquencies stop dragging the file and you have three clean cycles.",
+      "blockedBy": ["Collections", "Charge-offs", "Current late accounts"]
+    },
+    {
+      "id": "amazon-prime-visa",
+      "category": "Card Stack",
+      "name": "Amazon Prime Visa",
+      "status": "locked",
+      "requirement": "Usually wants a cleaner recent file and roughly 660+ real FICO.",
+      "nextStep": "Treat this the same as Apple Card: no application until the file is materially cleaner.",
+      "blockedBy": ["Collections", "Charge-offs", "Current late accounts"]
+    },
+    {
+      "id": "fidelity-visa",
+      "category": "Card Stack",
+      "name": "Fidelity Visa",
+      "status": "locked",
+      "requirement": "Usually wants 690+ and recent clean payment behavior.",
+      "nextStep": "Target this only after the low-tier cards are realistically winnable.",
+      "blockedBy": ["Charge-offs", "Current late accounts", "Need stronger score"]
+    },
+    {
+      "id": "amex-gold",
+      "category": "Card Stack",
+      "name": "Amex Gold",
+      "status": "locked",
+      "requirement": "Usually wants 690+ with far cleaner recent behavior than the current file shows.",
+      "nextStep": "Keep it aspirational until the collections and charge-offs are no longer defining the profile.",
+      "blockedBy": ["Collections", "Charge-offs", "Need stronger score"]
+    },
+    {
+      "id": "chase-private-client",
+      "category": "Banking",
+      "name": "Chase Private Client Hub",
+      "status": "sequence_next",
+      "requirement": "Needs stable cash flow and organized routing, not just a headline status goal.",
+      "nextStep": "Build regular checking and savings discipline first, then upgrade when balances and inflows support it.",
+      "blockedBy": ["Need stable routing system", "Need reserve cash first"]
+    },
+    {
+      "id": "amex-plat",
+      "category": "Card Stack",
+      "name": "Amex Platinum",
+      "status": "locked",
+      "requirement": "Best after the core card stack and cash flow layers are already clean and productive.",
+      "nextStep": "Treat this as a final-stage upgrade, not an early rebuild tool.",
+      "blockedBy": ["Need stronger score", "Need cleaner file", "Need stable spend pattern"]
     }
   ],
   "actionPlan": [
     {
       "phase": 1,
-      "title": "Foundation & Cleanup",
+      "title": "Truth and Monitoring Baseline",
+      "description": "Stop guessing. Build the monitoring and systems layer that turns this into a real operating dashboard.",
       "items": [
-        { "id": "a1", "task": "Bring Perpay ($135) and StellarFinance ($513) current immediately", "completed": false },
-        { "id": "a2", "task": "Mail Round 1 Dispute via USPS Certified Mail to Experian for Verizon", "completed": true },
-        { "id": "a3", "task": "Mail Round 1 Dispute to Equifax for Midland Credit", "completed": false },
-        { "id": "a4", "task": "Call I C System to negotiate Pay for Delete ($50)", "completed": false }
+        {
+          "id": "p1-1",
+          "task": "Activate myFICO and log your real mortgage, auto, and bankcard scores.",
+          "completed": false,
+          "dueWindow": "This week",
+          "why": "The annual credit reports do not include scores, so you still need a real baseline before timing applications.",
+          "unlocks": ["True qualification tracking", "Real 800 journey chart"]
+        },
+        {
+          "id": "p1-2",
+          "task": "Activate SmartCredit for weekly three-bureau score and alert checks.",
+          "completed": false,
+          "dueWindow": "This week",
+          "why": "You need a lighter-weight weekly pulse between myFICO check-ins.",
+          "unlocks": ["Weekly monitoring cadence"]
+        },
+        {
+          "id": "p1-3",
+          "task": "Build Monarch Money as the actual command center and link every active bank, card, loan, and cash bucket.",
+          "completed": false,
+          "dueWindow": "This week",
+          "why": "Your stack only works if cash flow, debt balances, and reserves live in one place.",
+          "unlocks": ["Real net worth tracking", "Cash-flow visibility"]
+        },
+        {
+          "id": "p1-4",
+          "task": "Create the three-bureau tradeline register in Credit Versio or a matching case tracker before sending any disputes.",
+          "completed": false,
+          "dueWindow": "This week",
+          "why": "Without bureau-by-bureau case tracking you will lose deadlines, evidence, and version control.",
+          "relatedAccounts": ["Verizon", "Midland", "Sunrise", "I C Systems", "Merrick", "First Premier"]
+        }
       ]
     },
     {
       "phase": 2,
-      "title": "Banking & Vault Setup",
+      "title": "Immediate Live Account Triage",
+      "description": "Fix the accounts that are currently capable of getting worse before touching prestige-stack applications.",
       "items": [
-        { "id": "b1", "task": "Open Chase Private Client account and route all income", "completed": false },
-        { "id": "b2", "task": "Setup Ally Bank with 6-month emergency vault", "completed": false }
+        {
+          "id": "p2-1",
+          "task": "Bring Perpay current or secure a written hardship/payment arrangement.",
+          "completed": false,
+          "dueWindow": "Immediate",
+          "why": "This is a live three-bureau delinquency and can easily turn into another permanent derogatory.",
+          "relatedAccounts": ["Perpay / Celtic"]
+        },
+        {
+          "id": "p2-2",
+          "task": "Bring StellarFinance current or settle it immediately.",
+          "completed": false,
+          "dueWindow": "Immediate",
+          "why": "It is still a live delinquency and should be treated like an emergency clean-up item.",
+          "relatedAccounts": ["StellarFinance"]
+        },
+        {
+          "id": "p2-3",
+          "task": "Pay Capital One below 30% of the $500 limit, then target AZEO once cash triage stabilizes.",
+          "completed": false,
+          "dueWindow": "This week",
+          "why": "The account is current, but utilization and historical lates still suppress approvals.",
+          "relatedAccounts": ["Capital One"]
+        },
+        {
+          "id": "p2-4",
+          "task": "Put Carmax on autopay with a one-payment cash buffer so no more auto-loan lates hit the file.",
+          "completed": false,
+          "dueWindow": "This week",
+          "why": "A current auto loan with fresh 30/60 history can still kill near-term underwriting.",
+          "relatedAccounts": ["Carmax Auto Finance"]
+        }
       ]
     },
     {
       "phase": 3,
-      "title": "Investing & Crypto Core",
+      "title": "Collections and Charge-Off Attack Plan",
+      "description": "Hit the biggest score suppressors in a deliberate order instead of random dispute spam.",
       "items": [
-        { "id": "c1", "task": "Setup Fidelity (SPAXX, Roth IRA, Solo 401k)", "completed": false },
-        { "id": "c2", "task": "Create Phantom Vault Wallet for USDC Storage", "completed": false },
-        { "id": "c3", "task": "Deploy Kamino Yield Layer via Phantom Staging Wallet", "completed": false }
+        {
+          "id": "p3-1",
+          "task": "Build the Verizon validation packet with service dates, address history, and identity proof.",
+          "completed": false,
+          "dueWindow": "Next 7 days",
+          "why": "This is the largest three-bureau collection on the file.",
+          "relatedAccounts": ["Verizon Wireless"]
+        },
+        {
+          "id": "p3-2",
+          "task": "Build the Midland debt-buyer packet and confirm its chain from Credit One before negotiating anything.",
+          "completed": false,
+          "dueWindow": "Next 7 days",
+          "why": "Debt-buyer collections are often where documentation gaps exist.",
+          "relatedAccounts": ["Midland Credit Management"]
+        },
+        {
+          "id": "p3-3",
+          "task": "Pull the underlying utility history for Sunrise so you can challenge ownership or settle from facts.",
+          "completed": false,
+          "dueWindow": "Next 7 days",
+          "why": "A utility collection with no prep work is easy to mishandle.",
+          "relatedAccounts": ["Sunrise Credit Services"]
+        },
+        {
+          "id": "p3-4",
+          "task": "Choose a fast strategy for I C Systems: validation first or written pay-for-delete attempt because the balance is only $50.",
+          "completed": false,
+          "dueWindow": "Next 7 days",
+          "why": "This is the smallest collection and should not consume the same energy as Verizon or Midland.",
+          "relatedAccounts": ["I C Systems"]
+        },
+        {
+          "id": "p3-5",
+          "task": "Write a resolution decision memo for Merrick and First Premier: dispute, settle, or let them age while you focus on live accounts.",
+          "completed": false,
+          "dueWindow": "Next 10 days",
+          "why": "Two revolving charge-offs across all three bureaus are enough to kill premium-card timing.",
+          "relatedAccounts": ["Merrick Bank", "First Premier"]
+        }
       ]
     },
     {
       "phase": 4,
-      "title": "Credit Optimization",
+      "title": "10/10 Stack Infrastructure",
+      "description": "Build the systems that should exist regardless of your score today.",
       "items": [
-        { "id": "d1", "task": "Acquire Apple Card & Amazon Prime Visa (Req: ~660 FICO)", "completed": false },
-        { "id": "d2", "task": "Acquire Amex Gold & Fidelity Visa (Req: ~690 FICO)", "completed": false },
-        { "id": "d3", "task": "Implement AZEO Strategy (< 10% utilization)", "completed": false }
+        {
+          "id": "p4-1",
+          "task": "Open and label the Ally emergency vault, then fund month one of reserves.",
+          "completed": false,
+          "dueWindow": "Next 14 days",
+          "why": "Cash safety has to come before premium leverage.",
+          "unlocks": ["Emergency buffer", "Cleaner decision-making"]
+        },
+        {
+          "id": "p4-2",
+          "task": "Open the Fidelity base account and define the SPAXX parking workflow.",
+          "completed": false,
+          "dueWindow": "Next 14 days",
+          "why": "This is the clean foundation for the investing side of the stack.",
+          "unlocks": ["Fidelity core", "Future Roth / Solo 401(k) setup"]
+        },
+        {
+          "id": "p4-3",
+          "task": "Set a weekly 15-minute Monarch review and a monthly SSOT credit review on the same day every month.",
+          "completed": false,
+          "dueWindow": "Next 14 days",
+          "why": "The stack only becomes real when the cadence is automatic.",
+          "unlocks": ["Sustainable system", "Monthly bureau verification"]
+        },
+        {
+          "id": "p4-4",
+          "task": "Organize your dispute vault: one folder per tradeline, one log per bureau, zero fake docs until real mail or evidence exists.",
+          "completed": false,
+          "dueWindow": "Next 14 days",
+          "why": "You asked for a true SSOT, so the evidence layer must stay clean and honest.",
+          "unlocks": ["Real document management"]
+        }
+      ]
+    },
+    {
+      "phase": 5,
+      "title": "Sequence the Stack Unlocks",
+      "description": "Do not apply for shiny stuff out of order. Earn the unlocks in a way that actually sticks.",
+      "items": [
+        {
+          "id": "p5-1",
+          "task": "Do not apply for any new consumer cards until Perpay and Stellar are current and you have at least three clean reporting cycles.",
+          "completed": false,
+          "dueWindow": "Hold",
+          "why": "New inquiries on top of current delinquencies is self-sabotage.",
+          "unlocks": ["Cleaner underwriting windows"]
+        },
+        {
+          "id": "p5-2",
+          "task": "Target Apple Card and Amazon Prime Visa only after real FICO tracking shows you are truly near the 660 band.",
+          "completed": false,
+          "dueWindow": "After cleanup phase",
+          "why": "These are the first realistic consumer card unlocks, not the starting point.",
+          "unlocks": ["Level 2 card stack"]
+        },
+        {
+          "id": "p5-3",
+          "task": "Target Fidelity Visa and Amex Gold only after the charge-offs are no longer the dominant story on the file and real FICO is near 690.",
+          "completed": false,
+          "dueWindow": "Later stage",
+          "why": "Premium cards should be the reward for cleanup, not the motivation to skip it.",
+          "unlocks": ["Level 3 card stack"]
+        },
+        {
+          "id": "p5-4",
+          "task": "Treat Chase Private Client, Amex Platinum, and the Kamino yield layer as final-stage upgrades after cash flow, reserves, and credit stability are real.",
+          "completed": false,
+          "dueWindow": "Final stage",
+          "why": "Status products are worthless if the underlying file and cash system are still unstable.",
+          "unlocks": ["Level 4/5 stack"]
+        }
       ]
     }
   ],
   "custodianLog": [
     {
       "date": "2026-03-17",
-      "message": "Initial state created based on Mar 2026 Experian and Equifax reports. 8 blockers identified."
+      "message": "Rebuilt the SSOT from all three Mar 2026 bureau reports: Experian, Equifax, and TransUnion."
+    },
+    {
+      "date": "2026-03-17",
+      "message": "Removed fake dispute documents, removed fake completed actions, and reset the action engine to zero completed work."
+    },
+    {
+      "date": "2026-03-17",
+      "message": "Kept the score ring as a working placeholder only. Real score tracking still needs myFICO and SmartCredit because the bureau PDFs do not include FICO scores."
     }
   ]
 }
