@@ -1,0 +1,5 @@
+.env*
+.env*.local
+.specstory/
+.vscode/
+screenshot-dash.js
